@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Ganesha Temple - Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ff9933, #ffffff, #138808);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+
+        .logo::before {
+            content: "🕉";
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #ff6b35;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b35;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        main {
+            margin-top: 100px;
+            padding: 2rem 0;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b35, #138808);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #ff6b35;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ff6b35;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab.active {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .dashboard {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                padding: 1rem;
+            }
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Sri Ganesha Temple</div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showHome()">Home</a></li>
+                    <li><a href="#" onclick="openModal('donationModal')">Donate</a></li>
+                    <li><a href="#" onclick="openModal('eventModal')">Events</a></li>
+                    <li><a href="#" onclick="openModal('memberModal')">Membership</a></li>
+                    <li><a href="#" onclick="showDashboard()">Dashboard</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu">☰</button>
+            <button class="login-btn" onclick="openModal('loginModal')">Login</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="home-section">
+            <section class="hero">
+                <h1>Welcome to Sri Ganesha Temple</h1>
+                <p>Your complete temple management solution - connecting devotees, managing events, and preserving our sacred traditions</p>
+                <button class="btn" onclick="openModal('memberModal')">Join Our Community</button>
+            </section>
+
+            <div class="features-grid">
+                <div class="feature-card" onclick="openModal('donationModal')">
+                    <h3><span class="feature-icon">💰</span>Donation Management</h3>
+                    <p>Secure online donations with automated receipts, pledge tracking, and multiple payment options including UPI, cards, and bank transfers.</p>
+                    <button class="btn">Make Donation</button>
+                </div>
+
+                <div class="feature-card" onclick="openModal('eventModal')">
+                    <h3><span class="feature-icon">📅</span>Event & Puja Booking</h3>
+                    <p>Book pujas, festivals, and special ceremonies. Check priest availability and manage your spiritual calendar.</p>
+                    <button class="btn">Book Event</button>
+                </div>
+
+                <div class="feature-card" onclick="openModal('memberModal')">
+                    <h3><span class="feature-icon">👥</span>Member Management</h3>
+                    <p>Join our temple family, access member benefits, track your contributions, and stay connected with the community.</p>
+                    <button class="btn">Become Member</button>
+                </div>
+
+                <div class="feature-card" onclick="openModal('communicationModal')">
+                    <h3><span class="feature-icon">📱</span>Communications</h3>
+                    <p>Receive temple updates, event notifications, and important announcements via WhatsApp, SMS, and email.</p>
+                    <button class="btn">Subscribe</button>
+                </div>
+
+                <div class="feature-card" onclick="openModal('volunteerModal')">
+                    <h3><span class="feature-icon">🤝</span>Volunteer Portal</h3>
+                    <p>Join our volunteer team, manage your duties, check availability, and contribute to temple activities.</p>
+                    <button class="btn">Volunteer</button>
+                </div>
+
+                <div class="feature-card" onclick="openModal('priestModal')">
+                    <h3><span class="feature-icon">🙏</span>Priest Services</h3>
+                    <p>Schedule personal pujas with our experienced priests. View availability and book sacred ceremonies.</p>
+                    <button class="btn">Book Priest</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashboard-section" class="dashboard">
+            <div class="dashboard-header">
+                <h2>Temple Management Dashboard</h2>
+                <button class="btn" onclick="showHome()">Back to Home</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1,234</div>
+                    <div>Total Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">₹5,67,890</div>
+                    <div>Monthly Donations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">45</div>
+                    <div>Events This Month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">78</div>
+                    <div>Active Volunteers</div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('members')">Members</div>
+                <div class="tab" onclick="showTab('donations')">Donations</div>
+                <div class="tab" onclick="showTab('events')">Events</div>
+                <div class="tab" onclick="showTab('reports')">Reports</div>
+            </div>
+
+            <div id="members-tab" class="tab-content active">
+                <h3>Recent Member Registrations</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Join Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="members-data">
+                        <tr>
+                            <td>Rajesh Kumar</td>
+                            <td>+91 98765 43210</td>
+                            <td>2024-09-10</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>Priya Sharma</td>
+                            <td>+91 87654 32109</td>
+                            <td>2024-09-12</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>Amit Patel</td>
+                            <td>+91 76543 21098</td>
+                            <td>2024-09-13</td>
+                            <td>Pending</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="donations-tab" class="tab-content">
+                <h3>Recent Donations</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Donor</th>
+                            <th>Amount</th>
+                            <th>Purpose</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Suresh Agarwal</td>
+                            <td>₹5,000</td>
+                            <td>General Fund</td>
+                            <td>2024-09-14</td>
+                        </tr>
+                        <tr>
+                            <td>Meera Joshi</td>
+                            <td>₹2,100</td>
+                            <td>Ganesh Chaturthi</td>
+                            <td>2024-09-13</td>
+                        </tr>
+                        <tr>
+                            <td>Rahul Verma</td>
+                            <td>₹10,000</td>
+                            <td>Temple Renovation</td>
+                            <td>2024-09-12</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="events-tab" class="tab-content">
+                <h3>Upcoming Events</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Bookings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Annaprashan Ceremony</td>
+                            <td>2024-09-20</td>
+                            <td>10:00 AM</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>Navaratri Celebration</td>
+                            <td>2024-10-03</td>
+                            <td>6:00 PM</td>
+                            <td>150</td>
+                        </tr>
+                        <tr>
+                            <td>Diwali Special Puja</td>
+                            <td>2024-10-31</td>
+                            <td>7:00 PM</td>
+                            <td>200</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="reports-tab" class="tab-content">
+                <h3>Analytics & Reports</h3>
+                <p>Monthly donation trends, member growth, event attendance, and financial reports are available here.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                    <button class="btn">Generate Monthly Report</button>
+                    <button class="btn">Export Donation Data</button>
+                    <button class="btn">Member Analytics</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <!-- Donation Modal -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Make a Donation</h2>
+            <div class="success-message" id="donation-success">Thank you for your generous donation!</div>
+            <form id="volunteerForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="volunteerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="volunteerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="volunteerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="volunteerAge" min="16" max="80">
+                </div>
+                <div class="form-group">
+                    <label>Areas of Interest</label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <label><input type="checkbox" id="eventHelp"> Event Management</label>
+                        <label><input type="checkbox" id="kitchenHelp"> Kitchen/Annadanam</label>
+                        <label><input type="checkbox" id="cleaningHelp"> Temple Cleaning</label>
+                        <label><input type="checkbox" id="decorationHelp"> Decoration</label>
+                        <label><input type="checkbox" id="musicHelp"> Music/Bhajans</label>
+                        <label><input type="checkbox" id="techHelp"> Technical Support</label>
+                        <label><input type="checkbox" id="adminHelp"> Administrative Work</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Availability</label>
+                    <select id="availability">
+                        <option value="weekends">Weekends Only</option>
+                        <option value="evenings">Weekday Evenings</option>
+                        <option value="flexible">Flexible</option>
+                        <option value="festivals">Festivals Only</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Special Skills</label>
+                    <textarea id="volunteerSkills" rows="3" placeholder="Any special skills or experience you'd like to share"></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Register as Volunteer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Priest Service Modal -->
+    <div id="priestModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Priest Services</h2>
+            <div class="success-message" id="priest-success">Your priest booking has been confirmed!</div>
+            <form id="priestForm">
+                <div class="form-group">
+                    <label>Service Type</label>
+                    <select id="priestService">
+                        <option value="home-puja">Home Puja</option>
+                        <option value="havan">Havan Ceremony</option>
+                        <option value="wedding">Wedding Rituals</option>
+                        <option value="thread-ceremony">Thread Ceremony</option>
+                        <option value="griha-pravesh">Griha Pravesh</option>
+                        <option value="birthday">Birthday Puja</option>
+                        <option value="consultation">Spiritual Consultation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Priest</label>
+                    <select id="priestName">
+                        <option value="pandit-sharma">Pandit Rajesh Sharma</option>
+                        <option value="pandit-agarwal">Pandit Suresh Agarwal</option>
+                        <option value="pandit-joshi">Pandit Mohan Joshi</option>
+                        <option value="any">Any Available Priest</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="priestDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="time" id="priestTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <select id="priestLocation">
+                        <option value="temple">At Temple</option>
+                        <option value="home">At Home</option>
+                        <option value="other">Other Location</option>
+                    </select>
+                </div>
+                <div class="form-group" id="address-group" style="display: none;">
+                    <label>Address</label>
+                    <textarea id="priestAddress" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="priestBookerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="priestBookerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Expected Duration</label>
+                    <select id="duration">
+                        <option value="1">1 Hour</option>
+                        <option value="2">2 Hours</option>
+                        <option value="3">3 Hours</option>
+                        <option value="4">4+ Hours</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Additional Requirements</label>
+                    <textarea id="priestRequirements" rows="3" placeholder="Any specific requirements or materials needed"></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Book Priest</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <div class="success-message" id="login-success">Login successful!</div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Phone Number or Email</label>
+                    <input type="text" id="loginUser" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="rememberMe"> Remember Me</label>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; margin-bottom: 1rem;">Login</button>
+                <div style="text-align: center;">
+                    <a href="#" style="color: #ff6b35; text-decoration: none;">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="floating-btn" onclick="openModal('donationModal')" title="Quick Donate">💝</button>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let members = [];
+        let donations = [];
+        let events = [];
+
+        // Modal functionality
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Close button functionality
+        document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.onclick = function() {
+                this.closest('.modal').style.display = 'none';
+            }
+        });
+
+        // Navigation functions
+        function showHome() {
+            document.getElementById('home-section').style.display = 'block';
+            document.getElementById('dashboard-section').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('home-section').style.display = 'none';
+            document.getElementById('dashboard-section').style.display = 'block';
+        }
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Form handling
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const donation = {
+                amount: document.getElementById('amount').value === 'custom' ? 
+                       document.getElementById('customAmount').value : 
+                       document.getElementById('amount').value,
+                purpose: document.getElementById('purpose').value,
+                name: document.getElementById('donorName').value,
+                phone: document.getElementById('donorPhone').value,
+                email: document.getElementById('donorEmail').value,
+                paymentMethod: document.getElementById('paymentMethod').value,
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            donations.push(donation);
+            showSuccess('donation-success');
+            setTimeout(() => closeModal('donationModal'), 2000);
+        });
+
+        document.getElementById('eventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const event = {
+                type: document.getElementById('eventType').value,
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                name: document.getElementById('eventBookerName').value,
+                phone: document.getElementById('eventBookerPhone').value,
+                participants: document.getElementById('participants').value,
+                requirements: document.getElementById('specialRequirements').value
+            };
+            
+            events.push(event);
+            showSuccess('event-success');
+            setTimeout(() => closeModal('eventModal'), 2000);
+        });
+
+        document.getElementById('memberForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const member = {
+                name: document.getElementById('memberName').value,
+                phone: document.getElementById('memberPhone').value,
+                email: document.getElementById('memberEmail').value,
+                address: document.getElementById('memberAddress').value,
+                dob: document.getElementById('memberDob').value,
+                membershipType: document.getElementById('membershipType').value,
+                communicationPref: Array.from(document.getElementById('communicationPref').selectedOptions).map(o => o.value),
+                joinDate: new Date().toISOString().split('T')[0]
+            };
+            
+            members.push(member);
+            addMemberToTable(member);
+            showSuccess('member-success');
+            setTimeout(() => closeModal('memberModal'), 2000);
+        });
+
+        document.getElementById('commForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showSuccess('comm-success');
+            setTimeout(() => closeModal('communicationModal'), 1500);
+        });
+
+        document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showSuccess('volunteer-success');
+            setTimeout(() => closeModal('volunteerModal'), 2000);
+        });
+
+        document.getElementById('priestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showSuccess('priest-success');
+            setTimeout(() => closeModal('priestModal'), 2000);
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            currentUser = {
+                username: document.getElementById('loginUser').value,
+                loginTime: new Date()
+            };
+            
+            showSuccess('login-success');
+            document.querySelector('.login-btn').textContent = 'Welcome!';
+            setTimeout(() => closeModal('loginModal'), 1500);
+        });
+
+        // Dynamic form behavior
+        document.getElementById('amount').addEventListener('change', function() {
+            const customAmountDiv = document.getElementById('custom-amount');
+            if (this.value === 'custom') {
+                customAmountDiv.style.display = 'block';
+                document.getElementById('customAmount').required = true;
+            } else {
+                customAmountDiv.style.display = 'none';
+                document.getElementById('customAmount').required = false;
+            }
+        });
+
+        document.getElementById('priestLocation').addEventListener('change', function() {
+            const addressGroup = document.getElementById('address-group');
+            if (this.value === 'home' || this.value === 'other') {
+                addressGroup.style.display = 'block';
+                document.getElementById('priestAddress').required = true;
+            } else {
+                addressGroup.style.display = 'none';
+                document.getElementById('priestAddress').required = false;
+            }
+        });
+
+        // Helper functions
+        function showSuccess(elementId) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 3000);
+        }
+
+        function addMemberToTable(member) {
+            const tbody = document.getElementById('members-data');
+            const row = tbody.insertRow(0);
+            row.innerHTML = `
+                <td>${member.name}</td>
+                <td>${member.phone}</td>
+                <td>${member.joinDate}</td>
+                <td>Active</td>
+            `;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum date for event booking to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('eventDate').min = today;
+            document.getElementById('priestDate').min = today;
+            
+            // Add some sample data
+            const sampleMembers = [
+                { name: 'Rajesh Kumar', phone: '+91 98765 43210', joinDate: '2024-09-10' },
+                { name: 'Priya Sharma', phone: '+91 87654 32109', joinDate: '2024-09-12' },
+                { name: 'Amit Patel', phone: '+91 76543 21098', joinDate: '2024-09-13' }
+            ];
+            
+            members.push(...sampleMembers);
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                });
+            });
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const nav = document.querySelector('nav ul');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Add animation on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Auto-hide mobile menu on link click
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('nav ul').style.display = 'none';
+                }
+            });
+        });
+
+        // Form validation enhancements
+        function validatePhone(phone) {
+            return validateUSPhone(phone);
+        }
+
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Add real-time validation to forms
+        document.querySelectorAll('input[type="tel"]').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value && !validatePhone(this.value)) {
+                    this.style.borderColor = '#ff4444';
+                    this.title = 'Please enter a valid phone number';
+                } else {
+                    this.style.borderColor = '#ddd';
+                    this.title = '';
+                }
+            });
+        });
+
+        document.querySelectorAll('input[type="email"]').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value && !validateEmail(this.value)) {
+                    this.style.borderColor = '#ff4444';
+                    this.title = 'Please enter a valid email address';
+                } else {
+                    this.style.borderColor = '#ddd';
+                    this.title = '';
+                }
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            // Ctrl+D for quick donate
+            if (e.ctrlKey && e.key === 'd') {
+                e.preventDefault();
+                openModal('donationModal');
+            }
+        });
+
+        // Print functionality for reports
+        function printReport() {
+            window.print();
+        }
+
+        // Export data functionality
+        function exportData(type) {
+            let data;
+            let filename;
+            
+            switch(type) {
+                case 'members':
+                    data = members;
+                    filename = 'temple_members.json';
+                    break;
+                case 'donations':
+                    data = donations;
+                    filename = 'temple_donations.json';
+                    break;
+                case 'events':
+                    data = events;
+                    filename = 'temple_events.json';
+                    break;
+                default:
+                    return;
+            }
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = filename;
+            link.click();
+        }
+
+        // Search functionality
+        function searchData(query, type) {
+            query = query.toLowerCase();
+            let results = [];
+            
+            switch(type) {
+                case 'members':
+                    results = members.filter(member => 
+                        member.name.toLowerCase().includes(query) ||
+                        member.phone.includes(query) ||
+                        member.email.toLowerCase().includes(query)
+                    );
+                    break;
+                case 'donations':
+                    results = donations.filter(donation => 
+                        donation.name.toLowerCase().includes(query) ||
+                        donation.purpose.toLowerCase().includes(query)
+                    );
+                    break;
+                case 'events':
+                    results = events.filter(event => 
+                        event.type.toLowerCase().includes(query) ||
+                        event.name.toLowerCase().includes(query)
+                    );
+                    break;
+            }
+            
+            return results;
+        }
+
+        // Auto-save form data to localStorage
+        function autoSaveForm(formId) {
+            const form = document.getElementById(formId);
+            const formData = new FormData(form);
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // Note: localStorage is not available in Claude artifacts
+            // In a real implementation, this would save to localStorage
+            console.log('Auto-saving form data:', data);
+        }
+
+        // Set up auto-save for all forms
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('input', function() {
+                // Debounce auto-save
+                clearTimeout(this.autoSaveTimer);
+                this.autoSaveTimer = setTimeout(() => {
+                    autoSaveForm(this.id);
+                }, 1000);
+            });
+        });
+
+        // Initialize tooltips
+        function initTooltips() {
+            document.querySelectorAll('[title]').forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'tooltip';
+                    tooltip.textContent = this.title;
+                    tooltip.style.cssText = `
+                        position: absolute;
+                        background: #333;
+                        color: white;
+                        padding: 5px 10px;
+                        border-radius: 5px;
+                        font-size: 12px;
+                        z-index: 1000;
+                        pointer-events: none;
+                    `;
+                    document.body.appendChild(tooltip);
+                    
+                    const rect = this.getBoundingClientRect();
+                    tooltip.style.left = rect.left + 'px';
+                    tooltip.style.top = (rect.top - 30) + 'px';
+                    
+                    this.tooltip = tooltip;
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    if (this.tooltip) {
+                        document.body.removeChild(this.tooltip);
+                        this.tooltip = null;
+                    }
+                });
+            });
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initTooltips();
+            
+            // Add loading animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>d="donationForm">
+                <div class="form-group">
+                    <label>Donation Amount (₹)</label>
+                    <select id="amount">
+                        <option value="501">₹501</option>
+                        <option value="1100">₹1,100</option>
+                        <option value="2100">₹2,100</option>
+                        <option value="5100">₹5,100</option>
+                        <option value="custom">Custom Amount</option>
+                    </select>
+                </div>
+                <div class="form-group" id="custom-amount" style="display: none;">
+                    <label>Enter Amount (₹)</label>
+                    <input type="number" id="customAmount" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Purpose</label>
+                    <select id="purpose">
+                        <option value="general">General Fund</option>
+                        <option value="renovation">Temple Renovation</option>
+                        <option value="festival">Festival Celebration</option>
+                        <option value="annadanam">Annadanam (Free Meals)</option>
+                        <option value="education">Vedic Education</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="donorName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="donorPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="donorEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="paymentMethod">
+                        <option value="upi">UPI</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="netbanking">Net Banking</option>
+                        <option value="wallet">Digital Wallet</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event Booking Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Book Event/Puja</h2>
+            <div class="success-message" id="event-success">Your booking has been confirmed!</div>
+            <form id="eventForm">
+                <div class="form-group">
+                    <label>Event Type</label>
+                    <select id="eventType">
+                        <option value="puja">Personal Puja</option>
+                        <option value="havan">Havan Ceremony</option>
+                        <option value="annaprashan">Annaprashan</option>
+                        <option value="wedding">Wedding Ceremony</option>
+                        <option value="griha-pravesh">Griha Pravesh</option>
+                        <option value="satyanarayan">Satyanarayan Puja</option>
+                        <option value="thread">Thread Ceremony</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Date</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Time</label>
+                    <select id="eventTime">
+                        <option value="morning">Morning (6:00 AM - 12:00 PM)</option>
+                        <option value="afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
+                        <option value="evening">Evening (4:00 PM - 8:00 PM)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="eventBookerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="eventBookerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Number of Participants</label>
+                    <input type="number" id="participants" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label>Special Requirements</label>
+                    <textarea id="specialRequirements" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Book Event</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Membership Modal -->
+    <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Temple Membership</h2>
+            <div class="success-message" id="member-success">Welcome to our temple family!</div>
+            <form id="memberForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="memberName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="memberPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="memberEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="memberAddress" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="memberDob">
+                </div>
+                <div class="form-group">
+                    <label>Membership Type</label>
+                    <select id="membershipType">
+                        <option value="basic">Basic (Free)</option>
+                        <option value="silver">Silver (₹1,000/year)</option>
+                        <option value="gold">Gold (₹5,000/year)</option>
+                        <option value="platinum">Platinum (₹10,000/year)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Communication</label>
+                    <select id="communicationPref" multiple>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="sms">SMS</option>
+                        <option value="email">Email</option>
+                        <option value="call">Phone Call</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Communication Modal -->
+    <div id="communicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Communication Preferences</h2>
+            <div class="success-message" id="comm-success">Your preferences have been updated!</div>
+            <form id="commForm">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="commPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="commEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Notification Types</label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <label><input type="checkbox" id="eventNotif" checked> Event Announcements</label>
+                        <label><input type="checkbox" id="festivalNotif" checked> Festival Updates</label>
+                        <label><input type="checkbox" id="donationNotif"> Donation Receipts</label>
+                        <label><input type="checkbox" id="newsNotif" checked> Temple News</label>
+                        <label><input type="checkbox" id="emergencyNotif" checked> Emergency Alerts</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Language</label>
+                    <select id="language">
+                        <option value="english">English</option>
+                        <option value="hindi">Hindi</option>
+                        <option value="gujarati">Gujarati</option>
+                        <option value="marathi">Marathi</option>
+                        <option value="tamil">Tamil</option>
+                        <option value="telugu">Telugu</option>
+                        <option value="kannada">Kannada</option>
+                        <option value="bengali">Bengali</option>
+                        <option value="punjabi">Punjabi</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Save Preferences</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Volunteer Modal -->
+    <div id="volunteerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Volunteer Registration</h2>
+            <div class="success-message" id="volunteer-success">Thank you for volunteering! We'll contact you soon.</div>
+            <form i
