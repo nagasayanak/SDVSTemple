@@ -446,7 +446,7 @@
             <div class="features-grid">
                 <div class="feature-card" onclick="openModal('donationModal')">
                     <h3><span class="feature-icon">💰</span>Donation Management</h3>
-                    <p>Secure online donations with automated receipts, pledge tracking, and multiple payment options including UPI, cards, and bank transfers.</p>
+                    <p>Secure online donations with automated receipts, pledge tracking, and multiple payment options including PayPal, credit cards, ACH transfers, and digital wallets.</p>
                     <button class="btn">Make Donation</button>
                 </div>
 
@@ -464,7 +464,7 @@
 
                 <div class="feature-card" onclick="openModal('communicationModal')">
                     <h3><span class="feature-icon">📱</span>Communications</h3>
-                    <p>Receive temple updates, event notifications, and important announcements via WhatsApp, SMS, and email.</p>
+                    <p>Receive temple updates, event notifications, and important announcements via WhatsApp, SMS, email, and phone calls.</p>
                     <button class="btn">Subscribe</button>
                 </div>
 
@@ -494,7 +494,7 @@
                     <div>Total Members</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">₹5,67,890</div>
+                    <div class="stat-number">$45,890</div>
                     <div>Monthly Donations</div>
                 </div>
                 <div class="stat-card">
@@ -528,19 +528,19 @@
                     <tbody id="members-data">
                         <tr>
                             <td>Rajesh Kumar</td>
-                            <td>+91 98765 43210</td>
+                            <td>+1 (555) 123-4567</td>
                             <td>2024-09-10</td>
                             <td>Active</td>
                         </tr>
                         <tr>
                             <td>Priya Sharma</td>
-                            <td>+91 87654 32109</td>
+                            <td>+1 (555) 234-5678</td>
                             <td>2024-09-12</td>
                             <td>Active</td>
                         </tr>
                         <tr>
                             <td>Amit Patel</td>
-                            <td>+91 76543 21098</td>
+                            <td>+1 (555) 345-6789</td>
                             <td>2024-09-13</td>
                             <td>Pending</td>
                         </tr>
@@ -562,19 +562,19 @@
                     <tbody>
                         <tr>
                             <td>Suresh Agarwal</td>
-                            <td>₹5,000</td>
+                            <td>$250</td>
                             <td>General Fund</td>
                             <td>2024-09-14</td>
                         </tr>
                         <tr>
                             <td>Meera Joshi</td>
-                            <td>₹2,100</td>
+                            <td>$108</td>
                             <td>Ganesh Chaturthi</td>
                             <td>2024-09-13</td>
                         </tr>
                         <tr>
                             <td>Rahul Verma</td>
-                            <td>₹10,000</td>
+                            <td>$500</td>
                             <td>Temple Renovation</td>
                             <td>2024-09-12</td>
                         </tr>
@@ -635,6 +635,245 @@
             <span class="close">&times;</span>
             <h2>Make a Donation</h2>
             <div class="success-message" id="donation-success">Thank you for your generous donation!</div>
+            <form id="donationForm">
+                <div class="form-group">
+                    <label>Donation Amount (USD)</label>
+                    <select id="amount">
+                        <option value="25">$25</option>
+                        <option value="50">$50</option>
+                        <option value="100">$100</option>
+                        <option value="250">$250</option>
+                        <option value="500">$500</option>
+                        <option value="1000">$1,000</option>
+                        <option value="custom">Custom Amount</option>
+                    </select>
+                </div>
+                <div class="form-group" id="custom-amount" style="display: none;">
+                    <label>Enter Amount (USD)</label>
+                    <input type="number" id="customAmount" min="1" step="0.01" placeholder="Enter amount in dollars">
+                </div>
+                <div class="form-group">
+                    <label>Purpose</label>
+                    <select id="purpose">
+                        <option value="general">General Fund</option>
+                        <option value="renovation">Temple Renovation</option>
+                        <option value="festival">Festival Celebration</option>
+                        <option value="annadanam">Annadanam (Free Meals)</option>
+                        <option value="education">Vedic Education</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="donorName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="donorPhone" placeholder="+1 (555) 123-4567" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="donorEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="paymentMethod">
+                        <option value="paypal">PayPal</option>
+                        <option value="credit-card">Credit Card</option>
+                        <option value="debit-card">Debit Card</option>
+                        <option value="bank-transfer">Bank Transfer (ACH)</option>
+                        <option value="apple-pay">Apple Pay</option>
+                        <option value="google-pay">Google Pay</option>
+                        <option value="venmo">Venmo</option>
+                        <option value="zelle">Zelle</option>
+                    </select>
+                </div>
+                <div class="form-group" id="card-details" style="display: none;">
+                    <label>Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <div style="flex: 1;">
+                            <label>Expiry Date</label>
+                            <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>CVV</label>
+                            <input type="text" id="cvv" placeholder="123" maxlength="4">
+                        </div>
+                    </div>
+                    <div style="margin-top: 0.5rem;">
+                        <label>Cardholder Name</label>
+                        <input type="text" id="cardholderName" placeholder="Name on card">
+                    </div>
+                </div>
+                <div class="form-group" id="billing-address" style="display: none;">
+                    <label>Billing Address</label>
+                    <input type="text" id="billingStreet" placeholder="Street Address" style="margin-bottom: 0.5rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <input type="text" id="billingCity" placeholder="City" style="flex: 2;">
+                        <input type="text" id="billingState" placeholder="State" style="flex: 1;">
+                        <input type="text" id="billingZip" placeholder="ZIP" style="flex: 1;">
+                    </div>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event Booking Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Book Event/Puja</h2>
+            <div class="success-message" id="event-success">Your booking has been confirmed!</div>
+            <form id="eventForm">
+                <div class="form-group">
+                    <label>Event Type</label>
+                    <select id="eventType">
+                        <option value="puja">Personal Puja</option>
+                        <option value="havan">Havan Ceremony</option>
+                        <option value="annaprashan">Annaprashan</option>
+                        <option value="wedding">Wedding Ceremony</option>
+                        <option value="griha-pravesh">Griha Pravesh</option>
+                        <option value="satyanarayan">Satyanarayan Puja</option>
+                        <option value="thread">Thread Ceremony</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Date</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Time</label>
+                    <select id="eventTime">
+                        <option value="morning">Morning (6:00 AM - 12:00 PM)</option>
+                        <option value="afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
+                        <option value="evening">Evening (4:00 PM - 8:00 PM)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="eventBookerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="eventBookerPhone" placeholder="+1 (555) 123-4567" required>
+                </div>
+                <div class="form-group">
+                    <label>Number of Participants</label>
+                    <input type="number" id="participants" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label>Special Requirements</label>
+                    <textarea id="specialRequirements" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Book Event</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Membership Modal -->
+    <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Temple Membership</h2>
+            <div class="success-message" id="member-success">Welcome to our temple family!</div>
+            <form id="memberForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="memberName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="memberPhone" placeholder="+1 (555) 123-4567" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="memberEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="memberAddress" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="memberDob">
+                </div>
+                <div class="form-group">
+                    <label>Membership Type</label>
+                    <select id="membershipType">
+                        <option value="basic">Basic (Free)</option>
+                        <option value="silver">Silver ($50/year)</option>
+                        <option value="gold">Gold ($250/year)</option>
+                        <option value="platinum">Platinum ($500/year)</option>
+                        <option value="lifetime">Lifetime ($2,500 one-time)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Communication</label>
+                    <select id="communicationPref" multiple>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="email">Email</option>
+                        <option value="sms">SMS/Text</option>
+                        <option value="phone">Phone Call</option>
+                        <option value="mail">Postal Mail</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Communication Modal -->
+    <div id="communicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Communication Preferences</h2>
+            <div class="success-message" id="comm-success">Your preferences have been updated!</div>
+            <form id="commForm">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="commPhone" placeholder="+1 (555) 123-4567" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="commEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Notification Types</label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <label><input type="checkbox" id="whatsappNotif" checked> WhatsApp Updates</label>
+                        <label><input type="checkbox" id="eventNotif" checked> Event Announcements</label>
+                        <label><input type="checkbox" id="festivalNotif" checked> Festival Updates</label>
+                        <label><input type="checkbox" id="donationNotif"> Donation Receipts</label>
+                        <label><input type="checkbox" id="newsNotif" checked> Temple Newsletter</label>
+                        <label><input type="checkbox" id="emergencyNotif" checked> Emergency Alerts</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Language</label>
+                    <select id="language">
+                        <option value="english">English</option>
+                        <option value="hindi">Hindi</option>
+                        <option value="gujarati">Gujarati</option>
+                        <option value="marathi">Marathi</option>
+                        <option value="tamil">Tamil</option>
+                        <option value="telugu">Telugu</option>
+                        <option value="kannada">Kannada</option>
+                        <option value="bengali">Bengali</option>
+                        <option value="punjabi">Punjabi</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Save Preferences</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Volunteer Modal -->
+    <div id="volunteerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Volunteer Registration</h2>
+            <div class="success-message" id="volunteer-success">Thank you for volunteering! We'll contact you soon.</div>
             <form id="volunteerForm">
                 <div class="form-group">
                     <label>Full Name</label>
@@ -642,7 +881,7 @@
                 </div>
                 <div class="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" id="volunteerPhone" required>
+                    <input type="tel" id="volunteerPhone" placeholder="+1 (555) 123-4567" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
@@ -736,7 +975,7 @@
                 </div>
                 <div class="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" id="priestBookerPhone" required>
+                    <input type="tel" id="priestBookerPhone" placeholder="+1 (555) 123-4567" required>
                 </div>
                 <div class="form-group">
                     <label>Expected Duration</label>
@@ -843,117 +1082,280 @@
             event.target.classList.add('active');
         }
 
+        // Payment method change handler
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('paymentMethod').addEventListener('change', function() {
+                const cardDetails = document.getElementById('card-details');
+                const billingAddress = document.getElementById('billing-address');
+                
+                if (this.value === 'credit-card' || this.value === 'debit-card') {
+                    cardDetails.style.display = 'block';
+                    billingAddress.style.display = 'block';
+                    
+                    // Make card fields required
+                    document.getElementById('cardNumber').required = true;
+                    document.getElementById('expiryDate').required = true;
+                    document.getElementById('cvv').required = true;
+                    document.getElementById('cardholderName').required = true;
+                    document.getElementById('billingStreet').required = true;
+                    document.getElementById('billingCity').required = true;
+                    document.getElementById('billingState').required = true;
+                    document.getElementById('billingZip').required = true;
+                } else {
+                    cardDetails.style.display = 'none';
+                    billingAddress.style.display = 'none';
+                    
+                    // Remove required from card fields
+                    document.getElementById('cardNumber').required = false;
+                    document.getElementById('expiryDate').required = false;
+                    document.getElementById('cvv').required = false;
+                    document.getElementById('cardholderName').required = false;
+                    document.getElementById('billingStreet').required = false;
+                    document.getElementById('billingCity').required = false;
+                    document.getElementById('billingState').required = false;
+                    document.getElementById('billingZip').required = false;
+                }
+            });
+
+            // Card number formatting
+            document.getElementById('cardNumber').addEventListener('input', function() {
+                let value = this.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                let formattedInputValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                this.value = formattedInputValue;
+            });
+
+            // Expiry date formatting
+            document.getElementById('expiryDate').addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                this.value = value;
+            });
+
+            // CVV validation
+            document.getElementById('cvv').addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+
+        // US Phone number validation
+        function validateUSPhone(phone) {
+            const phoneRegex = /^\+?1?[-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/;
+            return phoneRegex.test(phone);
+        }
+
+        // Format US phone numbers
+        function formatUSPhone(phone) {
+            const cleaned = phone.replace(/\D/g, '');
+            if (cleaned.length === 10) {
+                return `+1 (${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+            } else if (cleaned.length === 11 && cleaned.startsWith('1')) {
+                return `+1 (${cleaned.slice(1, 4)}) ${cleaned.slice(4, 7)}-${cleaned.slice(7)}`;
+            }
+            return phone;
+        }
+
+        // PayPal integration placeholder
+        function processPayPalPayment(amount, purpose) {
+            console.log(`Processing PayPal payment: ${amount} for ${purpose}`);
+            alert(`Redirecting to PayPal for ${amount} donation...`);
+        }
+
+        // Stripe integration placeholder
+        function processStripePayment(amount, cardData) {
+            console.log(`Processing Stripe payment: ${amount}`);
+            alert(`Processing credit card payment for ${amount}...`);
+        }
+
+        // ACH/Bank transfer placeholder
+        function processACHPayment(amount, bankData) {
+            console.log(`Processing ACH payment: ${amount}`);
+            alert(`Processing bank transfer for ${amount}...`);
+        }
+
         // Form handling
-        document.getElementById('donationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('donationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const amount = document.getElementById('amount').value === 'custom' ? 
+                              document.getElementById('customAmount').value : 
+                              document.getElementById('amount').value;
+                
+                const donation = {
+                    amount: amount,
+                    purpose: document.getElementById('purpose').value,
+                    name: document.getElementById('donorName').value,
+                    phone: document.getElementById('donorPhone').value,
+                    email: document.getElementById('donorEmail').value,
+                    paymentMethod: document.getElementById('paymentMethod').value,
+                    date: new Date().toISOString().split('T')[0]
+                };
+                
+                // Process payment based on method
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                
+                switch(paymentMethod) {
+                    case 'paypal':
+                        processPayPalPayment(amount, donation.purpose);
+                        break;
+                    case 'credit-card':
+                    case 'debit-card':
+                        const cardData = {
+                            number: document.getElementById('cardNumber').value,
+                            expiry: document.getElementById('expiryDate').value,
+                            cvv: document.getElementById('cvv').value,
+                            name: document.getElementById('cardholderName').value,
+                            billing: {
+                                street: document.getElementById('billingStreet').value,
+                                city: document.getElementById('billingCity').value,
+                                state: document.getElementById('billingState').value,
+                                zip: document.getElementById('billingZip').value
+                            }
+                        };
+                        processStripePayment(amount, cardData);
+                        break;
+                    case 'bank-transfer':
+                        processACHPayment(amount, {});
+                        break;
+                    default:
+                        alert(`Processing ${paymentMethod} payment for ${amount}...`);
+                }
+                
+                donations.push(donation);
+                showSuccess('donation-success');
+                setTimeout(() => closeModal('donationModal'), 2000);
+            });
+
+            document.getElementById('eventForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const event = {
+                    type: document.getElementById('eventType').value,
+                    date: document.getElementById('eventDate').value,
+                    time: document.getElementById('eventTime').value,
+                    name: document.getElementById('eventBookerName').value,
+                    phone: document.getElementById('eventBookerPhone').value,
+                    participants: document.getElementById('participants').value,
+                    requirements: document.getElementById('specialRequirements').value
+                };
+                
+                events.push(event);
+                showSuccess('event-success');
+                setTimeout(() => closeModal('eventModal'), 2000);
+            });
+
+            document.getElementById('memberForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const member = {
+                    name: document.getElementById('memberName').value,
+                    phone: document.getElementById('memberPhone').value,
+                    email: document.getElementById('memberEmail').value,
+                    address: document.getElementById('memberAddress').value,
+                    dob: document.getElementById('memberDob').value,
+                    membershipType: document.getElementById('membershipType').value,
+                    communicationPref: Array.from(document.getElementById('communicationPref').selectedOptions).map(o => o.value),
+                    joinDate: new Date().toISOString().split('T')[0]
+                };
+                
+                members.push(member);
+                addMemberToTable(member);
+                showSuccess('member-success');
+                setTimeout(() => closeModal('memberModal'), 2000);
+            });
+
+            document.getElementById('commForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showSuccess('comm-success');
+                setTimeout(() => closeModal('communicationModal'), 1500);
+            });
+
+            document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showSuccess('volunteer-success');
+                setTimeout(() => closeModal('volunteerModal'), 2000);
+            });
+
+            document.getElementById('priestForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showSuccess('priest-success');
+                setTimeout(() => closeModal('priestModal'), 2000);
+            });
+
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                currentUser = {
+                    username: document.getElementById('loginUser').value,
+                    loginTime: new Date()
+                };
+                
+                showSuccess('login-success');
+                document.querySelector('.login-btn').textContent = 'Welcome!';
+                setTimeout(() => closeModal('loginModal'), 1500);
+            });
+
+            // Dynamic form behavior
+            document.getElementById('amount').addEventListener('change', function() {
+                const customAmountDiv = document.getElementById('custom-amount');
+                if (this.value === 'custom') {
+                    customAmountDiv.style.display = 'block';
+                    document.getElementById('customAmount').required = true;
+                } else {
+                    customAmountDiv.style.display = 'none';
+                    document.getElementById('customAmount').required = false;
+                }
+            });
+
+            document.getElementById('priestLocation').addEventListener('change', function() {
+                const addressGroup = document.getElementById('address-group');
+                if (this.value === 'home' || this.value === 'other') {
+                    addressGroup.style.display = 'block';
+                    document.getElementById('priestAddress').required = true;
+                } else {
+                    addressGroup.style.display = 'none';
+                    document.getElementById('priestAddress').required = false;
+                }
+            });
+
+            // Set minimum date for event booking to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('eventDate').min = today;
+            document.getElementById('priestDate').min = today;
             
-            const donation = {
-                amount: document.getElementById('amount').value === 'custom' ? 
-                       document.getElementById('customAmount').value : 
-                       document.getElementById('amount').value,
-                purpose: document.getElementById('purpose').value,
-                name: document.getElementById('donorName').value,
-                phone: document.getElementById('donorPhone').value,
-                email: document.getElementById('donorEmail').value,
-                paymentMethod: document.getElementById('paymentMethod').value,
-                date: new Date().toISOString().split('T')[0]
-            };
+            // Add some sample data
+            const sampleMembers = [
+                { name: 'Rajesh Kumar', phone: '+1 (555) 123-4567', joinDate: '2024-09-10' },
+                { name: 'Priya Sharma', phone: '+1 (555) 234-5678', joinDate: '2024-09-12' },
+                { name: 'Amit Patel', phone: '+1 (555) 345-6789', joinDate: '2024-09-13' }
+            ];
             
-            donations.push(donation);
-            showSuccess('donation-success');
-            setTimeout(() => closeModal('donationModal'), 2000);
+            members.push(...sampleMembers);
         });
 
-        document.getElementById('eventForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const event = {
-                type: document.getElementById('eventType').value,
-                date: document.getElementById('eventDate').value,
-                time: document.getElementById('eventTime').value,
-                name: document.getElementById('eventBookerName').value,
-                phone: document.getElementById('eventBookerPhone').value,
-                participants: document.getElementById('participants').value,
-                requirements: document.getElementById('specialRequirements').value
-            };
-            
-            events.push(event);
-            showSuccess('event-success');
-            setTimeout(() => closeModal('eventModal'), 2000);
-        });
+        // Auto-format phone numbers
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[type="tel"]').forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.value) {
+                        this.value = formatUSPhone(this.value);
+                        if (!validateUSPhone(this.value)) {
+                            this.style.borderColor = '#ff4444';
+                            this.title = 'Please enter a valid US phone number';
+                        } else {
+                            this.style.borderColor = '#ddd';
+                            this.title = '';
+                        }
+                    }
+                });
 
-        document.getElementById('memberForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const member = {
-                name: document.getElementById('memberName').value,
-                phone: document.getElementById('memberPhone').value,
-                email: document.getElementById('memberEmail').value,
-                address: document.getElementById('memberAddress').value,
-                dob: document.getElementById('memberDob').value,
-                membershipType: document.getElementById('membershipType').value,
-                communicationPref: Array.from(document.getElementById('communicationPref').selectedOptions).map(o => o.value),
-                joinDate: new Date().toISOString().split('T')[0]
-            };
-            
-            members.push(member);
-            addMemberToTable(member);
-            showSuccess('member-success');
-            setTimeout(() => closeModal('memberModal'), 2000);
-        });
-
-        document.getElementById('commForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            showSuccess('comm-success');
-            setTimeout(() => closeModal('communicationModal'), 1500);
-        });
-
-        document.getElementById('volunteerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            showSuccess('volunteer-success');
-            setTimeout(() => closeModal('volunteerModal'), 2000);
-        });
-
-        document.getElementById('priestForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            showSuccess('priest-success');
-            setTimeout(() => closeModal('priestModal'), 2000);
-        });
-
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            currentUser = {
-                username: document.getElementById('loginUser').value,
-                loginTime: new Date()
-            };
-            
-            showSuccess('login-success');
-            document.querySelector('.login-btn').textContent = 'Welcome!';
-            setTimeout(() => closeModal('loginModal'), 1500);
-        });
-
-        // Dynamic form behavior
-        document.getElementById('amount').addEventListener('change', function() {
-            const customAmountDiv = document.getElementById('custom-amount');
-            if (this.value === 'custom') {
-                customAmountDiv.style.display = 'block';
-                document.getElementById('customAmount').required = true;
-            } else {
-                customAmountDiv.style.display = 'none';
-                document.getElementById('customAmount').required = false;
-            }
-        });
-
-        document.getElementById('priestLocation').addEventListener('change', function() {
-            const addressGroup = document.getElementById('address-group');
-            if (this.value === 'home' || this.value === 'other') {
-                addressGroup.style.display = 'block';
-                document.getElementById('priestAddress').required = true;
-            } else {
-                addressGroup.style.display = 'none';
-                document.getElementById('priestAddress').required = false;
-            }
+                input.addEventListener('input', function() {
+                    // Allow only numbers, spaces, parentheses, hyphens, and plus sign
+                    this.value = this.value.replace(/[^0-9\s\(\)\-\+]/g, '');
+                });
+            });
         });
 
         // Helper functions
@@ -976,52 +1378,11 @@
             `;
         }
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set minimum date for event booking to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('eventDate').min = today;
-            document.getElementById('priestDate').min = today;
-            
-            // Add some sample data
-            const sampleMembers = [
-                { name: 'Rajesh Kumar', phone: '+91 98765 43210', joinDate: '2024-09-10' },
-                { name: 'Priya Sharma', phone: '+91 87654 32109', joinDate: '2024-09-12' },
-                { name: 'Amit Patel', phone: '+91 76543 21098', joinDate: '2024-09-13' }
-            ];
-            
-            members.push(...sampleMembers);
-            
-            // Smooth scrolling for navigation
-            document.querySelectorAll('nav a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                });
-            });
-        });
-
         // Mobile menu toggle
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            const nav = document.querySelector('nav ul');
-            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-        });
-
-        // Add animation on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
-        });
-
-        // Auto-hide mobile menu on link click
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 768) {
-                    document.querySelector('nav ul').style.display = 'none';
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.mobile-menu').addEventListener('click', function() {
+                const nav = document.querySelector('nav ul');
+                nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
             });
         });
 
@@ -1036,27 +1397,17 @@
         }
 
         // Add real-time validation to forms
-        document.querySelectorAll('input[type="tel"]').forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.value && !validatePhone(this.value)) {
-                    this.style.borderColor = '#ff4444';
-                    this.title = 'Please enter a valid phone number';
-                } else {
-                    this.style.borderColor = '#ddd';
-                    this.title = '';
-                }
-            });
-        });
-
-        document.querySelectorAll('input[type="email"]').forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.value && !validateEmail(this.value)) {
-                    this.style.borderColor = '#ff4444';
-                    this.title = 'Please enter a valid email address';
-                } else {
-                    this.style.borderColor = '#ddd';
-                    this.title = '';
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[type="email"]').forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.value && !validateEmail(this.value)) {
+                        this.style.borderColor = '#ff4444';
+                        this.title = 'Please enter a valid email address';
+                    } else {
+                        this.style.borderColor = '#ddd';
+                        this.title = '';
+                    }
+                });
             });
         });
 
@@ -1076,137 +1427,18 @@
             }
         });
 
-        // Print functionality for reports
-        function printReport() {
-            window.print();
-        }
-
-        // Export data functionality
-        function exportData(type) {
-            let data;
-            let filename;
-            
-            switch(type) {
-                case 'members':
-                    data = members;
-                    filename = 'temple_members.json';
-                    break;
-                case 'donations':
-                    data = donations;
-                    filename = 'temple_donations.json';
-                    break;
-                case 'events':
-                    data = events;
-                    filename = 'temple_events.json';
-                    break;
-                default:
-                    return;
+        // Add animation on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
             }
-            
-            const dataStr = JSON.stringify(data, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(dataBlob);
-            link.download = filename;
-            link.click();
-        }
-
-        // Search functionality
-        function searchData(query, type) {
-            query = query.toLowerCase();
-            let results = [];
-            
-            switch(type) {
-                case 'members':
-                    results = members.filter(member => 
-                        member.name.toLowerCase().includes(query) ||
-                        member.phone.includes(query) ||
-                        member.email.toLowerCase().includes(query)
-                    );
-                    break;
-                case 'donations':
-                    results = donations.filter(donation => 
-                        donation.name.toLowerCase().includes(query) ||
-                        donation.purpose.toLowerCase().includes(query)
-                    );
-                    break;
-                case 'events':
-                    results = events.filter(event => 
-                        event.type.toLowerCase().includes(query) ||
-                        event.name.toLowerCase().includes(query)
-                    );
-                    break;
-            }
-            
-            return results;
-        }
-
-        // Auto-save form data to localStorage
-        function autoSaveForm(formId) {
-            const form = document.getElementById(formId);
-            const formData = new FormData(form);
-            const data = {};
-            
-            for (let [key, value] of formData.entries()) {
-                data[key] = value;
-            }
-            
-            // Note: localStorage is not available in Claude artifacts
-            // In a real implementation, this would save to localStorage
-            console.log('Auto-saving form data:', data);
-        }
-
-        // Set up auto-save for all forms
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('input', function() {
-                // Debounce auto-save
-                clearTimeout(this.autoSaveTimer);
-                this.autoSaveTimer = setTimeout(() => {
-                    autoSaveForm(this.id);
-                }, 1000);
-            });
         });
-
-        // Initialize tooltips
-        function initTooltips() {
-            document.querySelectorAll('[title]').forEach(element => {
-                element.addEventListener('mouseenter', function() {
-                    const tooltip = document.createElement('div');
-                    tooltip.className = 'tooltip';
-                    tooltip.textContent = this.title;
-                    tooltip.style.cssText = `
-                        position: absolute;
-                        background: #333;
-                        color: white;
-                        padding: 5px 10px;
-                        border-radius: 5px;
-                        font-size: 12px;
-                        z-index: 1000;
-                        pointer-events: none;
-                    `;
-                    document.body.appendChild(tooltip);
-                    
-                    const rect = this.getBoundingClientRect();
-                    tooltip.style.left = rect.left + 'px';
-                    tooltip.style.top = (rect.top - 30) + 'px';
-                    
-                    this.tooltip = tooltip;
-                });
-                
-                element.addEventListener('mouseleave', function() {
-                    if (this.tooltip) {
-                        document.body.removeChild(this.tooltip);
-                        this.tooltip = null;
-                    }
-                });
-            });
-        }
 
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            initTooltips();
-            
             // Add loading animation
             document.body.style.opacity = '0';
             setTimeout(() => {
@@ -1216,207 +1448,4 @@
         });
     </script>
 </body>
-</html>d="donationForm">
-                <div class="form-group">
-                    <label>Donation Amount (₹)</label>
-                    <select id="amount">
-                        <option value="501">₹501</option>
-                        <option value="1100">₹1,100</option>
-                        <option value="2100">₹2,100</option>
-                        <option value="5100">₹5,100</option>
-                        <option value="custom">Custom Amount</option>
-                    </select>
-                </div>
-                <div class="form-group" id="custom-amount" style="display: none;">
-                    <label>Enter Amount (₹)</label>
-                    <input type="number" id="customAmount" min="1">
-                </div>
-                <div class="form-group">
-                    <label>Purpose</label>
-                    <select id="purpose">
-                        <option value="general">General Fund</option>
-                        <option value="renovation">Temple Renovation</option>
-                        <option value="festival">Festival Celebration</option>
-                        <option value="annadanam">Annadanam (Free Meals)</option>
-                        <option value="education">Vedic Education</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" id="donorName" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="donorPhone" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="donorEmail" required>
-                </div>
-                <div class="form-group">
-                    <label>Payment Method</label>
-                    <select id="paymentMethod">
-                        <option value="upi">UPI</option>
-                        <option value="card">Credit/Debit Card</option>
-                        <option value="netbanking">Net Banking</option>
-                        <option value="wallet">Digital Wallet</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn" style="width: 100%;">Proceed to Payment</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Event Booking Modal -->
-    <div id="eventModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Book Event/Puja</h2>
-            <div class="success-message" id="event-success">Your booking has been confirmed!</div>
-            <form id="eventForm">
-                <div class="form-group">
-                    <label>Event Type</label>
-                    <select id="eventType">
-                        <option value="puja">Personal Puja</option>
-                        <option value="havan">Havan Ceremony</option>
-                        <option value="annaprashan">Annaprashan</option>
-                        <option value="wedding">Wedding Ceremony</option>
-                        <option value="griha-pravesh">Griha Pravesh</option>
-                        <option value="satyanarayan">Satyanarayan Puja</option>
-                        <option value="thread">Thread Ceremony</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Date</label>
-                    <input type="date" id="eventDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Time</label>
-                    <select id="eventTime">
-                        <option value="morning">Morning (6:00 AM - 12:00 PM)</option>
-                        <option value="afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
-                        <option value="evening">Evening (4:00 PM - 8:00 PM)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" id="eventBookerName" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="eventBookerPhone" required>
-                </div>
-                <div class="form-group">
-                    <label>Number of Participants</label>
-                    <input type="number" id="participants" min="1" value="1">
-                </div>
-                <div class="form-group">
-                    <label>Special Requirements</label>
-                    <textarea id="specialRequirements" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn" style="width: 100%;">Book Event</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Membership Modal -->
-    <div id="memberModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Temple Membership</h2>
-            <div class="success-message" id="member-success">Welcome to our temple family!</div>
-            <form id="memberForm">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="memberName" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="memberPhone" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="memberEmail" required>
-                </div>
-                <div class="form-group">
-                    <label>Address</label>
-                    <textarea id="memberAddress" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Date of Birth</label>
-                    <input type="date" id="memberDob">
-                </div>
-                <div class="form-group">
-                    <label>Membership Type</label>
-                    <select id="membershipType">
-                        <option value="basic">Basic (Free)</option>
-                        <option value="silver">Silver (₹1,000/year)</option>
-                        <option value="gold">Gold (₹5,000/year)</option>
-                        <option value="platinum">Platinum (₹10,000/year)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Communication</label>
-                    <select id="communicationPref" multiple>
-                        <option value="whatsapp">WhatsApp</option>
-                        <option value="sms">SMS</option>
-                        <option value="email">Email</option>
-                        <option value="call">Phone Call</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn" style="width: 100%;">Register</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Communication Modal -->
-    <div id="communicationModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Communication Preferences</h2>
-            <div class="success-message" id="comm-success">Your preferences have been updated!</div>
-            <form id="commForm">
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="commPhone" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="commEmail" required>
-                </div>
-                <div class="form-group">
-                    <label>Notification Types</label>
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <label><input type="checkbox" id="eventNotif" checked> Event Announcements</label>
-                        <label><input type="checkbox" id="festivalNotif" checked> Festival Updates</label>
-                        <label><input type="checkbox" id="donationNotif"> Donation Receipts</label>
-                        <label><input type="checkbox" id="newsNotif" checked> Temple News</label>
-                        <label><input type="checkbox" id="emergencyNotif" checked> Emergency Alerts</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Language</label>
-                    <select id="language">
-                        <option value="english">English</option>
-                        <option value="hindi">Hindi</option>
-                        <option value="gujarati">Gujarati</option>
-                        <option value="marathi">Marathi</option>
-                        <option value="tamil">Tamil</option>
-                        <option value="telugu">Telugu</option>
-                        <option value="kannada">Kannada</option>
-                        <option value="bengali">Bengali</option>
-                        <option value="punjabi">Punjabi</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn" style="width: 100%;">Save Preferences</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Volunteer Modal -->
-    <div id="volunteerModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Volunteer Registration</h2>
-            <div class="success-message" id="volunteer-success">Thank you for volunteering! We'll contact you soon.</div>
-            <form i
+</html>
